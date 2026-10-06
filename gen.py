@@ -71,3 +71,29 @@ svg("projects",860,400,t(10,36,"~/projects  &&  ~/achievements",14,G,700,MO)+cd+
 # ---------- HEATMAP PLACEHOLDER (replaced by the Action) ----------
 cells="".join(f'<rect x="{20+w*14}" y="{50+d*14}" width="11" height="11" rx="2" fill="#12204a"><animate attributeName="fill" values="#12204a;{G};#12204a" dur="3s" begin="{w*.07:.2f}s" repeatCount="indefinite"/></rect>' for w in range(53) for d in range(7))
 svg("contrib-heatmap",780,170,t(20,30,"$ ./contributions.sh   # syncing with GitHub — run the workflow once",12,G,400,MO)+cells)
+# ---------- SKILLS MARQUEE ----------
+PAL=[C,B,P,G,Y,"#ff8fab"]
+def prow(items,y,dur,rev):
+    x=0;s=""
+    for i,l in enumerate(items):
+        w=len(l)*7+28;c=PAL[i%6]
+        s+=f'<rect x="{x}" width="{w}" height="30" rx="15" fill="{PN}" stroke="{c}" stroke-opacity=".7"/><circle cx="{x+15}" cy="15" r="3.5" fill="{c}"/>'+t(x+26,19.5,l,12,TX,600);x+=w+12
+    a,b=("-%d 0"%x,"0 0") if rev else ("0 0","-%d 0"%x)
+    return f'<g transform="translate(0 {y})"><g><animateTransform attributeName="transform" type="translate" from="{a}" to="{b}" dur="{dur}s" repeatCount="indefinite"/>{s}<g transform="translate({x} 0)">{s}</g></g></g>'
+fd=f'<defs><linearGradient id="fl"><stop offset="0" stop-color="{BG}"/><stop offset="1" stop-color="{BG}" stop-opacity="0"/></linearGradient><linearGradient id="fr"><stop offset="0" stop-color="{BG}" stop-opacity="0"/><stop offset="1" stop-color="{BG}"/></linearGradient></defs>'
+svg("skills",860,200,fd+t(20,32,"$ cat tech-stack.txt",13,G,700,MO)+
+ prow(["JavaScript ES6+","React.js","Node.js","Express.js","Tailwind CSS","Bootstrap","HTML5","CSS3","REST APIs","JWT Auth"],54,45,False)+
+ prow(["Supabase","Firebase","MongoDB","PostgreSQL","MySQL","WordPress","Elementor","Cloudinary"],98,50,True)+
+ prow(["Python","C++","Arduino / IoT","UML & OOAD","Git","GitHub","Postman","VS Code","Netlify","Vercel"],142,42,False)+
+ '<rect width="60" height="200" fill="url(#fl)"/><rect x="800" width="60" height="200" fill="url(#fr)"/>')
+# ---------- EXPERIENCE TIMELINE ----------
+E=[("Full Stack Developer Intern","NexSoft Solutions","Jun 2026 – Present","Full-stack web development with React, Node.js, Express and MongoDB.",G),
+("WordPress Blog Developer Intern","Webera Solution","May – Jun 2026","WordPress blog development and content-driven site delivery.",B),
+("BS Computer Science (BSCS)","Karachi Institute of Economics & Technology (KIET)","Expected 2027","Software engineering, OOAD/UML, computer architecture and IoT coursework.",P)]
+ex=f'<path d="M60 70V270" stroke="{ST}" stroke-width="3"/><path d="M60 70V270" stroke="{C}" stroke-width="3" stroke-dasharray="200" stroke-dashoffset="200"><animate attributeName="stroke-dashoffset" to="0" dur="2.2s" fill="freeze"/></path>'
+for i,(a,b,c,d,k) in enumerate(E):
+    y=56+i*92
+    ex+=fade(f'<circle cx="60" cy="{y+22}" r="8" fill="{BG}" stroke="{k}" stroke-width="3"><animate attributeName="r" values="7;10;7" dur="2.4s" repeatCount="indefinite"/></circle><rect x="96" y="{y-8}" width="744" height="76" rx="12" fill="{PN}" stroke="{k}" stroke-opacity=".6"/>'+t(114,y+16,a,15,TX,700)+t(826,y+16,c,11.5,k,700,MO,"end")+t(114,y+36,b,12.5,k,600)+t(114,y+54,d,12,MU),.5+i*.7)
+svg("experience",860,340,t(20,32,"$ git log --career",13,G,700,MO)+ex)
+# ---------- STATS PLACEHOLDER ----------
+svg("stats",860,150,t(20,36,"$ ./stats.sh   # syncing with GitHub — run the workflow once",12,G,400,MO)+"".join(f'<rect x="{20+i*210}" y="60" width="190" height="64" rx="10" fill="{PN}" stroke="{ST}"><animate attributeName="stroke" values="{ST};{C};{ST}" dur="3s" begin="{i*.5}s" repeatCount="indefinite"/></rect>' for i in range(4)))
